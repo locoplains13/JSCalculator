@@ -7,6 +7,8 @@
 
 body{
     font-family: "Helvetica Neue", sans-serif;
+    font-size: larger;
+    font: bolder;
     margin: 25px;
 }
 .calculator{
@@ -46,10 +48,12 @@ body{
     width: 110px;
     font-size: 45px;
     border-radius: 50%;
+    cursor: pointer;
     background: #333;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: filter .1s;
 }
 
 .button.function{
@@ -67,4 +71,9 @@ body{
     justify-content: flex-start;
     padding-left: 43px;
     grid-column: 1 / span 2;
+}
+
+.button:active,
+.button:focus{
+    filter: brightness(120%);
 }
