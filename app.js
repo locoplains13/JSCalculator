@@ -34,12 +34,26 @@ const getValueAsNum = () => {
     return parseFloat(getValueAsStr());
 };
 
+const setStrAsValue = (valueStr) => {
+    if(valueStr[valueStr.length - 1] === '.'){
+        displayEl.textContent += '.';
+        return;
+    }
+
+    const [wholeNumStr, decimalStr] = valueStr.split('.');
+    if(decimalStr){
+        displayEl.textContent = parseFloat(wholeNumStr).toLocaleString() + '.' + decimalStr;
+    }else{
+        displayEl.textContent = parseFloat(wholeNumStr).toLocaleString();
+    }
+};
+
 const handleNumberClick = (numStr) => {
     const currentDisplayStr = getValueAsStr();
     if(currentDisplayStr === '0'){
-        displayEl.textContent = numStr;
+        setStrAsValue(numStr);
     }else{
-        displayEl.textContent = parseFloat(currentDisplayStr + numStr).toLocaleString();
+        setStrAsValue(currentDisplayStr + numStr);
     }
 };
 
@@ -53,6 +67,7 @@ for(let i=0; i < numberElArray.length; i++){
 decimalEl.addEventListener('click', () => {
     const currentDisplayStr = getValueAsStr();
     if(!currentDisplayStr.includes('.')){
+        setStrAsValue(currentDisplayStr + '.');
         displayEl.textContent = currentDisplayStr + '.';
     }    
 });
