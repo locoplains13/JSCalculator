@@ -27,6 +27,10 @@ const number0El = document.querySelector('.number-0');
 
 const numberElArray = [number0El, number1El,number2El,number3El,number4El,number5El,number6El,number7El,number8El,number9El];
 
+// variables
+let valueStrInMemory = null;
+let operatorInMemory = null;
+
 // functions
 const getValueAsStr = () => displayEl.textContent.split(',').join('');
 
@@ -56,9 +60,45 @@ const handleNumberClick = (numStr) => {
         setStrAsValue(currentDisplayStr + numStr);
     }
 };
+
+const getResultOfOperationAsStre = () => {
+    const currentValueNum = getValueAsNum();
+    const valueNumInMemory = parseFloat(valueStrInMemory);
+    let newValueNum;
+    if(operatorInMemory === 'addition'){
+        newValueNum = valueNumInMemory + currentValueNum;
+    }else if (operatorInMemory === 'subtraction'){
+        newValueNum = valueNumInMemory - currentValueNum;
+    }
+    else if (operatorInMemory === 'multiplication'){
+        newValueNum = valueNumInMemory * currentValueNum;
+    }
+    else if (operatorInMemory === 'division'){
+        newValueNum = valueNumInMemory / currentValueNum;
+    }
+
+    return newValueNum.toString();
+}
+
+const handleOperatorClick = (operation) => {
+    const currentDisplayStr = getValueAsStr();
+    if(!valueStrInMemory){
+        valueStrInMemory = currentDisplayStr;
+        operatorInMemory = operation;
+        setStrAsValue('0');
+        return;
+    }
+
+    valueStrInMemory = getResultOfOperationAsStre();
+    operatorInMemory = operation;
+    setStrAsValue('0');
+};
+
 // add event listeners to functions
 acEl.addEventListener('click', () => {
     setStrAsValue('0');
+    valueStrInMemory = null;
+    operatorInMemory = null;
 });
 
 pmEl.addEventListener('click', () => {
@@ -81,6 +121,33 @@ percentEl.addEventListener('click', () => {
     const currentValueNum = getValueAsNum();
     const newValueNum = currentValueNum / 100;
     setStrAsValue(newValueNum.toString());
+    valueStrInMemory = null;
+    operatorInMemory = null;
+});
+
+//add event listeners to operators
+additionEl.addEventListener('click',() => {
+    handleOperatorClick('addition');
+});
+
+subtractionEl.addEventListener('click',() => {
+    handleOperatorClick('subtraction');
+});
+
+multiplicationEl.addEventListener('click',() => {
+    handleOperatorClick('multiplication');
+});
+
+divisionEl.addEventListener('click',() => {
+    handleOperatorClick('division');
+});
+
+equalEl.addEventListener('click',() => {
+    if(valueStrInMemory){
+        setStrAsValue(getResultOfOperationAsStre());
+        valueStrInMemory = null;
+        operatorInMemory = null;
+    }
 });
 
 // add event listeners to numbers and decimal
